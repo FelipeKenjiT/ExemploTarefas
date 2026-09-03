@@ -21,50 +21,57 @@ const Tarefas = () => {
     //função adicionar tarefa
 
     const AdicionarTarefa=(e)=>{
+        //Previne o carregamento automatico da pagina
         e.preventDefault();
+        //valida o campo se estiver vazio
         if(!campo.trim()) return;
 
+        //objeto nova tarefa
         const novaTarefa ={
             id:Date.now(),
             text:campo,
         };
+        //spread - pega o valor novo e junta com o antigo
         setTarefas([...tarefas,novaTarefa]);
+        //limpa a tela
         setCampo();
     };
 
+    //função para remover tarefa
     const RemoverTarefa=(id)=>{
+        //compara o id que deseja remover com o que está no array
         const apagarTarefa=tarefas.filter((tarefa)=>tarefa.id !== id);
         setTarefas(apagarTarefa)
     };
 
   return (
     <>
-          <div className="todo-container">
-              <h2>Minha Lista de Tarefas</h2>
+          <div className="max-w-md mx-auto mt-10 p-6 bg-orange-300 rounded-2xl shadow-2xl border border-gray-600">
+              <h2 className='text-2xl font-bold text-lime-50 mb-6 text-center'>Minha Lista de Tarefas</h2>
 
-              <form onSubmit={AdicionarTarefa} className="todo-form">
+              <form onSubmit={AdicionarTarefa} className="flex gap-2 mb-6">
                   <input
                       type="text"
                       value={campo}
                       onChange={(e) => setCampo(e.target.value)}
                       placeholder="Digite uma nova tarefa..."
-                      className="todo-input"
+                      className="flex-1 px-4 border border-amber-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:border-transparent text-blue-700"
                   />
-                  <button type="submit" className="btn-adicionar">
+                  <button type="submit" className="bg-amber-500 hover:bg-amber-700 font-medium px-5 py-2 rounded-2xl transition-colors cursor-pointer">
                       Adicionar
                   </button>
               </form>
 
-              <ul className="todo-lista">
+              <ul className="space-y-3">
                   {tarefas.map((tarefa) => (
-                      <li key={tarefa.id} className="todo-item">
-                          <span>{tarefa.text}</span>
+                      <li key={tarefa.id} className="flex items-center justify-around p-3 bg-amber-300 border border-amber-600 rounded-2xl shadow-xl hover:bg-amber-400 transition-colors">
+                          <span className='text-shadow-amber-800 break-all mr-2'>{tarefa.text}</span>
                           {/* arrow function (função seta) que encapsula a execução de outra função. 
             Ela garante que removerTarefa só seja executada quando o evento acontecer (como um clique de botão), 
             e não assim que a página carregar.
             */}
                           <button onClick={() => RemoverTarefa(tarefa.id)}
-                              className="btn-delete"
+                              className="bg-orange-300 hover:bg-orange-700 font-medium px-5 py-2 rounded-2xl transition-colors cursor-pointer"
                           >
                               Excluir
                           </button>
@@ -72,7 +79,7 @@ const Tarefas = () => {
                   ))}
               </ul>
 
-              {tarefas.length === 0 && <p className="mensagem">Nenhuma tarefa salva.</p>}
+              {tarefas.length === 0 && <p className="text-center text-amber-700 italic mt-4">Nenhuma tarefa salva.</p>}
           </div>
     </>
   )
